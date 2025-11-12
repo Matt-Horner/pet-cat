@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <title>Погладь котика 🐱</title>
+  <meta name="theme-color" content="#fff6f9" />
+  <style>
+    :root{
+      --bg:#fff6f9;
+      --ink:#3a2e2e;
+      --soft:#ffdbe8;
+      --accent:#ff7aa2;
+      --good:#7ad39e;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;}
+    .wrap{
+      min-height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      align-items:center;
+      padding:24px 16px 28px;
+      gap:16px;
+    }
+    header{width:100%;max-width:480px;text-align:center;}
+    h1{font-size:22px;margin:0 0 6px;font-weight:700;letter-spacing:0.2px;}
+    p.sub{margin:0;font-size:14px;opacity:.8}
+    .card{
+      width:100%;
+      max-width:480px;
+      background:white;
+      border:1px solid #f3dbe6;
+      border-radius:16px;
+      box-shadow:0 6px 20px rgba(255,122,162,.12);
+      padding:16px;
+    }
+    .cat-stage{
+      position:relative;
+      width:100%;
+      aspect-ratio:1/1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      border-radius:12px;
+      background: radial-gradient(120% 140% at 50% 0%, #fff 0%, #ffeef4 60%, #ffe3ee 100%);
+      touch-action:none;
+      user-select:none;
+    }
+    .cat {
+      width:82%;
+      height:auto;
+    }
+    .heart{
+      position:absolute;
+      font-size:18px;
+      pointer-events:none;
+      will-change: transform, opacity;
+      animation: floatUp 900ms ease-out forwards;
+      filter: drop-shadow(0 2px 6px rgba(255,122,162,.35));
+    }
+    @keyframes floatUp{
+      from{ transform: translate(-50%,-30%) scale(.8); opacity:.95; }
+      to{ transform: translate(-50%,-120px) scale(1.2); opacity:0; }
+    }
+    .purr{
+      position:absolute;
+      left:50%;top:50%;
+      transform:translate(-50%,-50%);
+      width:0;height:0;border-radius:999px;
+      border:2px solid rgba(122,211,158,.6);
+      animation:pulse 950ms ease-out forwards;
+      pointer-events:none;
+    }
+    @keyframes pulse{
+      from{width:10px;height:10px;opacity:.8}
+      to{width:140px;height:140px;opacity:0}
+    }
+    .hud{
+      display:flex;justify-content:space-between;align-items:center;
+      gap:10px;margin-top:12px;
+      font-size:14px;
+    }
+    .pill{
+      background:var(--soft);
+      color:var(--ink);
+      padding:8px 12px;border-radius:999px;
+      border:1px solid #ffd0e0;
+      display:flex;align-items:center;gap:8px;
+    }
+    .pill .dot{width:8px;height:8px;background:var(--good);border-radius:50%;box-shadow:0 0 0 3px rgba(122,211,158,.18);}
+    .btn{
+      background:var(--accent);
+      color:white;
+      border:none;border-radius:999px;
+      padding:10px 14px;font-weight:600;
+      box-shadow:0 8px 18px rgba(255,122,162,.25);
+    }
+    .msg{
+      width:100%;max-width:480px;text-align:center;
+      font-size:15px;line-height:1.35;
+      padding:8px 12px;margin-top:-6px;color:#5b4a4a;
+      min-height:1.2em;
+    }
+    footer{opacity:.55;font-size:12px}
+    .eye{ transform-origin:center; animation:blink 5s infinite; }
+    @keyframes blink{
+      0%,2%,100%{transform:scaleY(1)}
+      1%{transform:scaleY(.05)}
+    }
+    .pet-shine{ animation:shine .35s ease-in-out; }
+    @keyframes shine{
+      from{filter:brightness(1)}
+      50%{filter:brightness(1.15)}
+      to{filter:brightness(1)}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Погладь котика</h1>
+      <p class="sub">Проведи пальцем по котику — он замурчит и пошлёт сердечки 💕</p>
+    </header>
+
+    <div class="card">
+      <div id="stage" class="cat-stage" aria-label="Котик. Погладь меня.">
+        <svg class="cat" viewBox="0 0 200 200" aria-hidden="true">
+          <ellipse cx="100" cy="120" rx="60" ry="45" fill="#FFE6EE" stroke="#D8A9BA" stroke-width="2"/>
+          <circle cx="100" cy="80" r="36" fill="#FFE6EE" stroke="#D8A9BA" stroke-width="2"/>
+          <path d="M75 60 L60 35 L84 48 Z" fill="#FFE6EE" stroke="#D8A9BA" stroke-width="2"/>
+          <path d="M125 60 L140 35 L116 48 Z" fill="#FFE6EE" stroke="#D8A9BA" stroke-width="2"/>
+          <path d="M74 56 L63 40 L82 49 Z" fill="#FFD0E0"/>
+          <path d="M126 56 L137 40 L118 49 Z" fill="#FFD0E0"/>
+          <ellipse class="eye" cx="88" cy="80" rx="4.6" ry="4.6" fill="#3A2E2E"/>
+          <ellipse class="eye" cx="112" cy="80" rx="4.6" ry="4.6" fill="#3A2E2E"/>
+          <polygon points="100,88 95,92 105,92" fill="#ff9ab7"/>
+          <path d="M95 92 Q100 96 105 92" stroke="#3A2E2E" stroke-width="1.8" fill="none"/>
+          <path d="M70 86 L90 88" stroke="#b68e9e" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M70 94 L90 92" stroke="#b68e9e" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M110 88 L130 86" stroke="#b68e9e" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M110 92 L130 94" stroke="#b68e9e" stroke-width="1.5" stroke-linecap="round"/>
+          <ellipse cx="75" cy="150" rx="14" ry="10" fill="#fff" stroke="#D8A9BA" stroke-width="2"/>
+          <ellipse cx="125" cy="150" rx="14" ry="10" fill="#fff" stroke="#D8A9BA" stroke-width="2"/>
+          <path d="M158 120 q18 -6 18 14 q0 18 -18 14" fill="none" stroke="#D8A9BA" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="hud">
+        <div class="pill"><span class="dot"></span><span id="count">0</span> поглаживаний</div>
+        <button id="reset" class="btn" aria-label="Сбросить счётчик">Сбросить</button>
+      </div>
+    </div>
+
+    <div id="msg" class="msg" role="status" aria-live="polite"></div>
+    <footer>Сделано с заботой 💗</footer>
+  </div>
+
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const countEl = document.getElementById('count');
+  const msgEl = document.getElementById('msg');
+  const resetBtn = document.getElementById('reset');
+
+  let petCount = 0;
+  let last = null;
+  let distAccum = 0;
+  const PET_THRESHOLD = 60;
+  const messages = [
+    "Спасибо, мне так приятно 😺",
+    "Ты делаешь этот мир мягче 💞",
+    "Ещё чуть-чуть — и я замурчу громче 💚",
+    "Ты справляешься лучше, чем думаешь.",
+    "Пусть сегодня будет немного легче 💫",
+    "Глубокий вдох… и выдох. Уже лучше."
+  ];
+  const milestones = {
+    3: "Котик урчит довольнее… продолжай 🥰",
+    5: "Ты даришь тепло. Спасибо, что ты есть 💖",
+    10:"Вау! Котик абсолютно счастлив. И я рядом с тобой 🌈",
+    15:"Мир мягче с тобой. Сделаем чаёк? ☕️",
+    20:"Ты герой сегодняшнего дня. Горжусь тобой 💪"
+  };
+
+  function rnd(min,max){ return Math.random()*(max-min)+min; }
+
+  function spawnHeart(x,y){
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.textContent = Math.random()<0.6 ? '💗' : (Math.random()<0.5 ? '💖' : '💞');
+    h.style.left = x+'px';
+    h.style.top = y+'px';
+    h.style.fontSize = (16 + rnd(0,10))+'px';
+    stage.appendChild(h);
+    h.addEventListener('animationend',()=>h.remove());
+  }
+
+  function purr(){
+    const ring = document.createElement('div');
+    ring.className='purr';
+    stage.appendChild(ring);
+    setTimeout(()=>ring.remove(),950);
+    if (navigator.vibrate) navigator.vibrate(10);
+  }
+
+  function setMessage(text){ msgEl.textContent = text; }
+
+  function addPet(){
+    petCount++;
+    countEl.textContent = petCount;
+    stage.classList.remove('pet-shine');
+    void stage.offsetWidth;
+    stage.classList.add('pet-shine');
+
+    if (milestones[petCount]) setMessage(milestones[petCount]);
+    else setMessage(messages[Math.floor(Math.random()*messages.length)]);
+
+    purr();
+  }
+
+  function handleDown(clientX, clientY){
+    last = {x:clientX, y:clientY};
+    distAccum = 0;
+    spawnHeart(clientX - stage.getBoundingClientRect().left, clientY - stage.getBoundingClientRect().top);
+  }
+
+  function handleMove(clientX, clientY){
+    if(!last) return;
+    const dx = clientX - last.x;
+    const dy = clientY - last.y;
+    const step = Math.hypot(dx,dy);
+    distAccum += step;
+    last = {x:clientX, y:clientY};
+
+    if (distAccum >= PET_THRESHOLD){
+      distAccum = 0;
+      addPet();
+      const rect = stage.getBoundingClientRect();
+      spawnHeart(clientX - rect.left, clientY - rect.top);
+    }
+  }
+
+  function handleUp(){
+    last = null;
+    distAccum = 0;
+  }
+
+  stage.addEventListener('touchstart', e=>{
+    const t = e.changedTouches[0];
+    handleDown(t.clientX, t.clientY);
+  }, {passive:true});
+  stage.addEventListener('touchmove', e=>{
+    const t = e.changedTouches[0];
+    handleMove(t.clientX, t.clientY);
+  }, {passive:true});
+  stage.addEventListener('touchend', handleUp);
+  stage.addEventListener('touchcancel', handleUp);
+
+  let mouseDown=false;
+  stage.addEventListener('mousedown', e=>{ mouseDown=true; handleDown(e.clientX,e.clientY); });
+  window.addEventListener('mousemove', e=>{ if(mouseDown) handleMove(e.clientX,e.clientY); });
+  window.addEventListener('mouseup', ()=>{ mouseDown=false; handleUp(); });
+
+  resetBtn.addEventListener('click', ()=>{
+    petCount = 0;
+    countEl.textContent = '0';
+    setMessage("Сначала — мягкое касание 🐈");
+  });
+
+  setTimeout(()=>setMessage("Проведи пальцем по котику — он любит нежные движения 🫶"),400);
+})();
+</script>
+</body>
+</html>
